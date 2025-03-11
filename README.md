@@ -1,1 +1,3 @@
 # AI-powered-medical-diagnosis-system_AICTE
+
+This is my project on AI-powered medical diagnosis system based on streamlit and I built this with python.....
