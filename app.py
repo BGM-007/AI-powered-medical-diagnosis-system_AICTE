@@ -14,16 +14,14 @@ def load_data(condition):
         data = pd.read_csv('datasets/heart.csv')
     elif condition == "Blood Sugar Level":
         data = pd.read_csv('datasets/diabetes.csv')
-    elif condition == "Parkinson's Disease":
-        data = pd.read_csv('datasets/parkinsons.csv')
     else:
         data = pd.DataFrame()  # Empty DataFrame as fallback
     return data
 
 # Train and Save Models
 def train_model(data, model_type):
-    X = data.drop(['target', 'Outcome', 'status'], axis=1, errors='ignore')
-    y = data['target'] if 'target' in data else (data['Outcome'] if 'Outcome' in data else data['status'])
+    X = data.drop(['target', 'Outcome'], axis=1, errors='ignore')
+    y = data['target'] if 'target' in data else data['Outcome']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -54,7 +52,7 @@ def main():
     st.title("AI-Powered Medical Diagnosis System")
     st.sidebar.title("Select Disease for Prediction")
 
-    condition = st.sidebar.selectbox("Disease", ["Heart Disease", "Blood Sugar Level", "Parkinson's Disease"])
+    condition = st.sidebar.selectbox("Disease", ["Heart Disease", "Blood Sugar Level"])
     model_choice = st.sidebar.selectbox("Model", ["SVM", "Logistic Regression", "Random Forest"])
 
     data = load_data(condition)
@@ -67,7 +65,7 @@ def main():
 
     st.markdown("### Enter Patient Details Below")
     input_data = []
-    for col in data.drop(['target', 'Outcome', 'status'], axis=1, errors='ignore').columns:
+    for col in data.drop(['target', 'Outcome'], axis=1, errors='ignore').columns:
         placeholder_value = 0 if col.lower() == 'sex' else 0.0
         value = st.number_input(f"{col}", value=placeholder_value)
         input_data.append(value)
